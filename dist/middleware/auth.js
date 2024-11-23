@@ -12,20 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectToDatabase = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
-const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        if (!process.env.MONGODB_URL) {
-            throw new Error("MONGODB_URL is not defined in the Environment Variables.!");
-        }
-        yield mongoose_1.default.connect(process.env.MONGODB_URL, { dbName: 'TodoApp', });
-        console.log("Connected to Database");
+const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        throw new Error("Unauthorized");
     }
-    catch (err) {
-        console.log("Failed to Connect to MongoDB", err);
-        process.exit(1);
+    console.log(authHeader);
+    const token = authHeader.split(' ')[1];
+    const secret = process.env.ACCESS_TOKEN;
+    if (!secret) {
+        throw new Error("Access Token is Not Defined in the ENV File");
     }
+    jsonwebtoken_1.default.verify(token, secret, (err, decoded) => {
+        if (err)
+            throw new Error("Invalid Token");
+        req.user = decoded.email;
+        next();
+    });
 });
-exports.connectToDatabase = connectToDatabase;

@@ -9,7 +9,7 @@ export const connectToDatabase = async ():Promise<void>=>{
                     throw new Error("MONGODB_URL is not defined in the Environment Variables.!")
             }
 
-            await mongoose.connect(process.env.MONGODB_URL);
+            await mongoose.connect(process.env.MONGODB_URL,{  dbName: 'TodoApp',});
             console.log("Connected to Database");
 
         }

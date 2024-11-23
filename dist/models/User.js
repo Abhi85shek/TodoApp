@@ -21,8 +21,12 @@ const UserSchema = new mongoose_1.default.Schema({
         required: true,
         type: Number
     },
+    refreshToken: {
+        required: String
+    },
     createdAt: {
-        type: Date.now()
+        type: Date,
+        default: Date.now()
     }
 });
 exports.default = mongoose_1.default.model("User", UserSchema);

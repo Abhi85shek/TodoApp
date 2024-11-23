@@ -7,9 +7,11 @@ const express_1 = __importDefault(require("express"));
 const db_1 = require("./db/db");
 require("dotenv/config");
 const userRoute_1 = __importDefault(require("./routes/userRoute"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const PORT = process.env.PORT || 8000;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
 // DataBase Connection
 (0, db_1.connectToDatabase)();
 app.use("/api/user", userRoute_1.default);
