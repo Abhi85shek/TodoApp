@@ -3,6 +3,7 @@ import { connectToDatabase } from "./db/db";
 import "dotenv/config";
 import userRoutes from "./routes/userRoute";
 import refreshRoutes from "./routes/refreshRoute";
+import authRoutes from "./routes/authRoute";
 import cookieParser from "cookie-parser";
 const PORT = process.env.PORT || 8000;
 
@@ -15,6 +16,7 @@ app.use(cookieParser())
 connectToDatabase();
 
 app.use("/api/user",userRoutes);
+app.use("/api/auth",authRoutes)
 app.use("/refresh",refreshRoutes);
 
 
